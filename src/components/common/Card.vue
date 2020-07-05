@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper">
+  <div class="card-wrapper" :style="{'background': show ? '#eee' : ''}">
     <div class="card-header" @click="click">
       <slot></slot>
     </div>
@@ -28,6 +28,7 @@ export default {
         this.$refs.text.style.maxHeight = '500px'
       }
       this.show = !this.show
+      this.$emit('refresh')
     }
   }
 }
@@ -41,11 +42,13 @@ export default {
   background-color #FFF
   overflow hidden
   color #303133
-  transition box-shadow 0.25s
-  &:hover
+  transition box-shadow 0.25s, background 0.5s
+  border 1px solid #bbb
+  &:active
+    background #eee
     box-shadow 2px 2px 5px rgba(0, 0, 0, 0.1)
   .card-header
-    border-bottom 1px solid #EBEEF5
+    border-bottom 1px solid #ddd
     padding 5px
   .card-text
     transition max-height 0.5s ease-in
@@ -53,4 +56,5 @@ export default {
     overflow hidden
     .text
       padding 5px 10px
+      line-height 26px
 </style>

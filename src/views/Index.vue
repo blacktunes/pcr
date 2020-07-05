@@ -2,12 +2,14 @@
   <transition name="right" appear>
     <div class="index-wrapper">
       <div class="label-wrapper">
-        <cube-checker v-model="selected1" :options="list1" type="radio" class="checker1" />
-        <cube-checker v-model="selected2" :options="list2" type="radio" class="checker2" />
-      </div>
-      <div class="btn-wrapper">
-        <cube-button class="btn" :light="true" :outline="true" @click="select">查询</cube-button>
-        <cube-button class="btn" :light="true" :outline="true" @click="commit">提交</cube-button>
+        <template v-for="king in kingList">
+          <div :key="king.text" class="line">
+            <div class="title">{{king.text}}</div>
+            <template v-for="round in roundList">
+              <cube-button :key="round.text" class="btn" :light="true" :outline="true" :inline="true" @click="select(king.value, round.value)">{{round.text}}</cube-button>
+            </template>
+          </div>
+        </template>
       </div>
     </div>
   </transition>
@@ -17,9 +19,7 @@
 export default {
   data () {
     return {
-      selected1: null,
-      selected2: null,
-      list1: [
+      kingList: [
         {
           text: '一王',
           value: 1
@@ -41,7 +41,7 @@ export default {
           value: 5
         }
       ],
-      list2: [
+      roundList: [
         {
           text: '一阶段',
           value: 1
@@ -54,15 +54,8 @@ export default {
     }
   },
   methods: {
-    select () {
-      if (this.selected1 !== null && this.selected2 !== null) {
-        this.$router.push(`/list?&king=${this.selected1}&round=${this.selected2}`)
-      }
-    },
-    commit () {
-      if (this.selected1 !== null && this.selected2 !== null) {
-        this.$router.push(`/edit?&king=${this.selected1}&round=${this.selected2}`)
-      }
+    select (king, round) {
+      this.$router.push(`/list?&king=${king}&round=${round}`)
     }
   }
 }
@@ -73,8 +66,8 @@ export default {
   position fixed
   top 0
   left 0
-  width 100vw
-  height 100vh
+  width 100%
+  height 100%
   .label-wrapper
     position fixed
     top 40%
@@ -85,21 +78,13 @@ export default {
     flex-direction column
     align-items center
     justify-content center
-    .checker1
-      font-size 1.2rem
+    .line
       display flex
-      margin 10px auto
-    .checker2
-      font-size 1.2rem
-      display flex
-      margin 10px auto
-  .btn-wrapper
-    position fixed
-    bottom 50px
-    left 50%
-    width 100%
-    transform translate3d(-50%, -50%, 0)
-    .btn
-      margin 10px auto
-      width 150px
+      align-items center
+      justify-content center
+      .title
+        font-size 20px
+        margin-right 10px
+      .btn
+        margin 10px
 </style>

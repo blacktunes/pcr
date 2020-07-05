@@ -16,7 +16,7 @@ import {
   // form
   // Checkbox,
   // CheckboxGroup,
-  Checker,
+  // Checker,
   // Radio,
   // RadioGroup,
   Input,
@@ -56,5 +56,4 @@ Vue.use(Switch)
 Vue.use(Toast)
 Vue.use(Dialog)
 Vue.use(Scroll)
-Vue.use(Checker)
 Vue.use(Textarea)

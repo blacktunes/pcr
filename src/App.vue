@@ -59,6 +59,31 @@ export default {
 </script>
 
 <style lang="stylus">
+::-webkit-scrollbar
+  width 7px
+  height 7px
+  background-color #F5F5F5
+::-webkit-scrollbar-track
+  box-shadow inset 0 0 6px rgba(0, 0, 0, 0.3)
+  -webkit-box-shadow inset 0 0 6px rgba(0, 0, 0, 0.3)
+  background-color #F5F5F5
+::-webkit-scrollbar-thumb
+  box-shadow inset 0 0 6px rgba(0, 0, 0, .1)
+  -webkit-box-shadow inset 0 0 6px rgba(0, 0, 0, .1)
+  background-color #bbb
+::-webkit-scrollbar-thumb:active
+  background-color #999
+
 body
+  overflow-y scroll
   background #EBEEF5
+  max-width 500px
+  height 100vh
+  margin auto
+  border-left 1px solid #ddd
+  border-right 1px solid #ddd
+#app
+  width 100%
+  height 100%
+  transform: scale3d(1, 1, 1)
 </style>

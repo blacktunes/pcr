@@ -12,11 +12,26 @@ export function addRecord (data) {
       data: data.data,
       text: data.text,
       king: data.king,
-      round: data.round
+      round: data.round,
+      rage: data.rage
     }
   })
 }
 
 export function getRecord (data) {
   return axios.get(`${serverUrl}/getRecord?king=${data.king}&round=${data.round}`)
+}
+
+export function editRecord (data) {
+  return axios({
+    method: 'post',
+    url: `${serverUrl}/editRecord`,
+    data: {
+      id: data.id,
+      num: data.num,
+      data: data.data,
+      text: data.text,
+      rage: data.rage
+    }
+  })
 }
