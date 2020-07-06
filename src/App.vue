@@ -24,24 +24,32 @@ export default {
       // Android处理返回键
       plus.key.addEventListener('backbutton', () => {
         if (this.$route.path === '/') {
-          this.$createDialog({
-            type: 'confirm',
-            title: '确定退出？',
-            maskClosable: true,
-            confirmBtn: {
-              text: '是',
-              active: true,
-              disabled: false
-            },
-            cancelBtn: {
-              text: '否',
-              active: false,
-              disabled: false
-            },
-            onConfirm: () => {
-              plus.runtime.quit()
-            }
-          }).show()
+          if (this.dialog === null) {
+            this.dialog.hide()
+            this.dialog = null
+          } else {
+            this.dialog = this.$createDialog({
+              type: 'confirm',
+              title: '确定退出？',
+              maskClosable: true,
+              confirmBtn: {
+                text: '是',
+                active: true,
+                disabled: false
+              },
+              cancelBtn: {
+                text: '否',
+                active: false,
+                disabled: false
+              },
+              onConfirm: () => {
+                plus.runtime.quit()
+              },
+              onClose: () => {
+                this.dialog = null
+              }
+            }).show()
+          }
         } else {
           this.$router.push('/')
         }

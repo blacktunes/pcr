@@ -16,9 +16,9 @@
                   <img :src="item.img" draggable="false">
                 </div>
               </div>
-              <div class="num">{{card.num ? card.num : '?'}}</div>
+              <div class="num">{{card.author ? card.author : '匿名大佬'}}：{{card.num ? card.num : '?'}}</div>
               <div slot="text">
-                <div class="text">{{card.text && card.text.length >= 1 ? card.text : '那家伙啥都没写'}}<cube-button :inline="true" :outline="true" class="edit-btn" @click="editRecord(card)">编辑</cube-button></div>
+                <div class="text">{{card.text && card.text.length > 0 ? card.text : '那家伙啥都没写'}}<cube-button :inline="true" :outline="true" class="edit-btn" @click="editRecord(card)">编辑</cube-button></div>
               </div>
             </card>
           </template>
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     back () {
-      this.$router.go(-1)
+      this.$router.push('/')
     },
     refresh () {
       setTimeout(() => {
@@ -134,8 +134,7 @@ export default {
             }
           })
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(() => {
           this.$createToast({
             type: 'error',
             txt: '未知错误'

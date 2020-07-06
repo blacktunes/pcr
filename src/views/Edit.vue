@@ -5,6 +5,9 @@
         <i class="cubeic-back icon" @click="back"></i>
         <div class="title">{{title}}</div>
         <div class="header-input">
+          <cube-input v-model="author" :maxlength="10" class="input">
+            <div slot="prepend" style="margin-left: 10px">你谁:</div>
+          </cube-input>
           <cube-input v-model="num" type="number" class="input">
             <div slot="prepend" style="margin-left: 10px">伤害:</div>
           </cube-input>
@@ -53,6 +56,7 @@ export default {
     return {
       list: [],
       selectList: [],
+      author: null,
       num: null,
       rage: false,
       text: '',
@@ -97,7 +101,7 @@ export default {
   },
   methods: {
     back () {
-      this.$router.go(-1)
+      this.$router.push(`/list?&king=${this.$route.query.king}&round=${this.$route.query.round}`)
     },
     imgClick (name) {
       if (this.isSelect(name.name)) {
@@ -123,6 +127,7 @@ export default {
       if (this.id) {
         editRecord({
           id: this.id,
+          author: this.author,
           num: this.num,
           data: JSON.stringify(this.selectList),
           text: this.text,
@@ -139,8 +144,7 @@ export default {
               }, 1000)
             }
           })
-          .catch((err) => {
-            console.error(err)
+          .catch(() => {
             this.$createToast({
               type: 'error',
               txt: '未知错误'
@@ -148,6 +152,7 @@ export default {
           })
       } else {
         addRecord({
+          author: this.author,
           num: this.num,
           data: JSON.stringify(this.selectList),
           text: this.text,
@@ -166,8 +171,7 @@ export default {
               }, 1000)
             }
           })
-          .catch((err) => {
-            console.error(err)
+          .catch(() => {
             this.$createToast({
               type: 'error',
               txt: '未知错误'
@@ -192,8 +196,8 @@ export default {
   created () {
     this.list = data
     if (this.$route.params.id) {
-      console.log(this.$route.params)
       const data = this.$route.params
+      this.author = data.author
       this.num = data.num
       this.selectList = data.data
       this.text = data.text
@@ -238,10 +242,10 @@ export default {
     .header-input
       display flex
       .input
-        margin 0 15px 0 5px
+        margin 0 5px
         flex 1
       .switch
-        margin-right 15px
+        margin 0 15px 0 5px
     .pick-card
       margin 10px 0
       .pick
@@ -263,7 +267,7 @@ export default {
   .textarea
     margin 10px 5px
   >>> .cube-textarea_expanded
-    height 200px !important
+    height 150px !important
   .btn
     width 95%
     margin 20px auto

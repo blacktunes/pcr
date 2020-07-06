@@ -6,7 +6,7 @@
           <div :key="king.text" class="line">
             <div class="title">{{king.text}}</div>
             <template v-for="round in roundList">
-              <cube-button :key="round.text" class="btn" :light="true" :outline="true" :inline="true" @click="select(king.value, round.value)">{{round.text}}</cube-button>
+              <cube-button :key="round.text" class="btn" :light="true" :outline="true" :inline="true" @click="select(king.value, round.value)">{{round.text}}<div class="num" v-if="total[king.value] && total[king.value][round.value] > 0">{{total[king.value][round.value]}}</div></cube-button>
             </template>
           </div>
         </template>
@@ -16,9 +16,12 @@
 </template>
 
 <script>
+import { getTotal } from '../api/store.js'
+
 export default {
   data () {
     return {
+      total: {},
       kingList: [
         {
           text: '一王',
@@ -57,6 +60,14 @@ export default {
     select (king, round) {
       this.$router.push(`/list?&king=${king}&round=${round}`)
     }
+  },
+  created () {
+    getTotal()
+      .then(res => {
+        if (res.data) {
+          this.total = res.data
+        }
+      })
   }
 }
 </script>
@@ -86,5 +97,18 @@ export default {
         font-size 20px
         margin-right 10px
       .btn
+        position relative
         margin 10px
+        .num
+          position absolute
+          top -10px
+          right -10px
+          border-radius 50%
+          background #666
+          width 20px
+          height 20px
+          line-height 20px
+          color #fff
+          text-align center
+          z-index 2
 </style>
