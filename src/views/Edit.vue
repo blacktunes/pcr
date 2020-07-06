@@ -2,6 +2,7 @@
   <transition name="right" appear>
     <div class="edit-wrapper">
       <div class="header">
+        <i class="cubeic-back icon" @click="back"></i>
         <div class="title">{{title}}</div>
         <div class="header-input">
           <cube-input v-model="num" type="number" class="input">
@@ -95,10 +96,8 @@ export default {
     }
   },
   methods: {
-    refresh () {
-      setTimeout(() => {
-        this.$refs.scroll.refresh()
-      }, 210)
+    back () {
+      this.$router.go(-1)
     },
     imgClick (name) {
       if (this.isSelect(name.name)) {
@@ -207,6 +206,7 @@ export default {
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 .edit-wrapper
+  overflow-y auto
   position fixed
   top 0
   left 0
@@ -223,6 +223,15 @@ export default {
     background #EBEEF5
     padding-top 10px
     z-index 1
+    .icon
+      position fixed
+      left 0
+      height 40px
+      width 40px
+      line-height 40px
+      z-index 3
+      cursor pointer
+      animation icon-shake 4s linear infinite
     .title
       text-align center
       display block

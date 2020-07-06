@@ -2,6 +2,7 @@
   <transition name="left" appear>
     <div class="list-wrapper">
       <div class="header">
+        <i class="cubeic-back icon" @click="back"></i>
         <div class="title">{{title}}</div>
         <cube-button :inline="true" class="btn" @click="addRecord">新增阵容</cube-button>
       </div>
@@ -10,7 +11,7 @@
           <template v-for="(card, index) in list">
             <card :key="index" @refresh="refresh">
               <div class="rage" v-if="card.rage">狂暴</div>
-              <div class="img">
+              <div class="img" ref="imgWrapper">
                 <div class="item" v-for="item in card.data" :key="item.name">
                   <img :src="item.img" draggable="false">
                 </div>
@@ -87,6 +88,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      this.$router.go(-1)
+    },
     refresh () {
       setTimeout(() => {
         this.$refs.scroll.refresh()
@@ -122,6 +126,13 @@ export default {
             this.listEmpty = true
           }
           this.showList = true
+          this.$nextTick(() => {
+            if (this.$refs.imgWrapper) {
+              this.$refs.imgWrapper.forEach(item => {
+                item.style.height = `${item.clientWidth / 5}px`
+              })
+            }
+          })
         })
         .catch((err) => {
           console.log(err)
@@ -147,6 +158,16 @@ export default {
   .header
     width 100%
     height 40px
+    .icon
+      position fixed
+      left 0
+      height 40px
+      width 40px
+      line-height 40px
+      z-index 3
+      text-align center
+      cursor pointer
+      animation icon-shake 4s linear infinite
     .title
       text-align center
       position fixed
@@ -168,7 +189,10 @@ export default {
       display flex
       .item
         width 20%
+        height 100%
+        background #ddd
         img
+          display block
           width 100%
     .num
       text-align center

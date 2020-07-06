@@ -75,7 +75,6 @@ export default {
   background-color #999
 
 body
-  overflow-y scroll
   background #EBEEF5
   max-width 500px
   height 100vh
