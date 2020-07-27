@@ -4,7 +4,7 @@
       <div class="header">
         <i class="cubeic-back icon" @click="back"></i>
         <div class="title">{{title}}</div>
-        <cube-button :inline="true" class="btn" @click="addRecord">新增阵容</cube-button>
+        <cube-button :inline="true" class="btn" @click="addRecord" v-if="isLogin">新增阵容</cube-button>
       </div>
       <transition name="fade">
         <cube-scroll class="scroll" :options="options" ref="scroll" v-if="!listEmpty" :data="list">
@@ -18,7 +18,7 @@
               </div>
               <div class="num">{{card.author ? card.author : '匿名大佬'}}：{{card.num ? card.num : '?'}}</div>
               <div slot="text">
-                <div class="text">{{card.text && card.text.length > 0 ? card.text : '那家伙啥都没写'}}<cube-button :inline="true" :outline="true" class="edit-btn" @click="editRecord(card)">编辑</cube-button></div>
+                <div class="text">{{card.text && card.text.length > 0 ? card.text : '那家伙啥都没写'}}<cube-button :inline="true" :outline="true" class="edit-btn" @click="editRecord(card)" v-if="isLogin">编辑</cube-button></div>
               </div>
             </card>
           </template>
@@ -85,6 +85,9 @@ export default {
           round = '?阶段'
       }
       return `${king}(${round})`
+    },
+    isLogin () {
+      return localStorage.getItem('user')
     }
   },
   methods: {

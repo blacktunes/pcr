@@ -1,6 +1,7 @@
 <template>
   <transition name="right" appear>
     <div class="index-wrapper">
+      <cube-button :inline="true" class="login-btn" @click="login">{{isLogin ? user : 'Login'}}</cube-button>
       <div class="label-wrapper">
         <template v-for="king in kingList">
           <div :key="king.text" class="line">
@@ -56,9 +57,34 @@ export default {
       ]
     }
   },
+  computed: {
+    isLogin () {
+      return localStorage.getItem('user')
+    },
+    user () {
+      const temp = this.isLogin
+      if (temp) {
+        if (temp !== 'null') {
+          return temp
+        } else {
+          return '匿名大佬'
+        }
+      } else {
+        return null
+      }
+    }
+  },
   methods: {
     select (king, round) {
       this.$router.push(`/list?&king=${king}&round=${round}`)
+    },
+    login () {
+      if (this.isLogin) {
+        localStorage.removeItem('user')
+        this.$router.go(0)
+      } else {
+        this.$router.push('/login')
+      }
     }
   },
   created () {
@@ -79,6 +105,10 @@ export default {
   left 0
   width 100%
   height 100%
+  .login-btn
+    position fixed
+    right 10px
+    top 10px
   .label-wrapper
     position fixed
     top 40%

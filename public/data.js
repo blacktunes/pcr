@@ -206,6 +206,14 @@ const data = [
       {
         name: '镜华',
         img: 'https://patchwiki.biligame.com/images/pcr/thumb/1/11/kf7jk1e35kfnqqvdd9l0y5f408ktm40.png/100px-Icon_unit_103631.png'
+      },
+      {
+        name: '纺希',
+        img: 'https://patchwiki.biligame.com/images/pcr/thumb/3/31/qhlauj3actlk8xjr4s94t8hcz4wsneo.png/100px-Icon_unit_105431.png'
+      },
+      {
+        name: '伊莉亚',
+        img: 'https://patchwiki.biligame.com/images/pcr/e/e2/10hawbdrcs5cv32ynab7ofxw2bfutrg.png'
       }
     ]
   }

@@ -194,6 +194,11 @@ export default {
     }
   },
   created () {
+    const user = localStorage.getItem('user')
+    if (!user) {
+      this.$router.go(-1)
+      return
+    }
     this.list = data
     if (this.$route.params.id) {
       const data = this.$route.params
@@ -203,6 +208,10 @@ export default {
       this.text = data.text
       this.id = data.id
       this.rage = Boolean(data.rage)
+    } else {
+      if (user !== 'null') {
+        this.author = user
+      }
     }
   }
 }
@@ -225,7 +234,6 @@ export default {
     position sticky
     top 0
     background #EBEEF5
-    padding-top 10px
     z-index 1
     .icon
       position fixed
@@ -234,9 +242,11 @@ export default {
       width 40px
       line-height 40px
       z-index 3
+      text-align center
       cursor pointer
       animation icon-shake 4s linear infinite
     .title
+      line-height 30px
       text-align center
       display block
     .header-input

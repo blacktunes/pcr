@@ -68,8 +68,8 @@ export default {
 
 <style lang="stylus">
 ::-webkit-scrollbar
-  width 7px
-  height 7px
+  width 0px
+  height 0px
   background-color #F5F5F5
 ::-webkit-scrollbar-track
   box-shadow inset 0 0 6px rgba(0, 0, 0, 0.3)
