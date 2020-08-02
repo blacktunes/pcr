@@ -40,13 +40,14 @@
       </template>
       <cube-textarea class="textarea" v-model="text" :maxlength="9999" :indicator="{ negative: true, remain: false}" placeholder="东西写这" :autoExpand="true"></cube-textarea>
       <cube-button :outline="true" class="btn" @click="commit">{{id ? '修改' : '提交'}}</cube-button>
+      <cube-button class="btn del-btn" v-if="id" @click="del">删除</cube-button>
     </div>
   </transition>
 </template>
 
 <script>
 import Card from '../components/common/Card'
-import { addRecord, editRecord } from '../api/store.js'
+import { addRecord, editRecord, hideRecord } from '../api/store.js'
 
 export default {
   components: {
@@ -168,7 +169,7 @@ export default {
               }).show()
               setTimeout(() => {
                 this.$router.push(`/list?&king=${this.$route.query.king}&round=${this.$route.query.round}`)
-              }, 1000)
+              }, 800)
             }
           })
           .catch(() => {
@@ -178,6 +179,48 @@ export default {
             }).show()
           })
       }
+    },
+    del () {
+      this.dialog = this.$createDialog({
+        type: 'confirm',
+        title: '确定要删除吗？',
+        maskClosable: true,
+        confirmBtn: {
+          text: '是',
+          active: false,
+          disabled: false
+        },
+        cancelBtn: {
+          text: '否',
+          active: true,
+          disabled: false
+        },
+        onConfirm: () => {
+          this.$createToast({
+            txt: '提交中',
+            time: 0,
+            mask: true
+          }).show()
+          hideRecord(this.id)
+            .then(res => {
+              if (res.data.code === 0) {
+                this.$createToast({
+                  type: 'correct',
+                  txt: '删除成功'
+                }).show()
+                setTimeout(() => {
+                  this.$router.push(`/list?&king=${this.$route.query.king}&round=${this.$route.query.round}`)
+                }, 800)
+              }
+            })
+            .catch(() => {
+              this.$createToast({
+                type: 'error',
+                txt: '未知错误'
+              }).show()
+            })
+        }
+      }).show()
     },
     removeItem (name) {
       for (let i = 0; i < this.selectList.length; i++) {
@@ -281,4 +324,6 @@ export default {
   .btn
     width 95%
     margin 20px auto
+  .del-btn
+    background #CC0033
 </style>

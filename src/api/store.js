@@ -26,3 +26,7 @@ export function editRecord (data) {
 export function getTotal () {
   return axios.get(`${serverUrl}/getTotal`)
 }
+
+export function hideRecord (id) {
+  return axios.get(`${serverUrl}/hideRecord?id=${id}`)
+}
