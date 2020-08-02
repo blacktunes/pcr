@@ -23,7 +23,7 @@ import {
   Textarea,
   // Select,
   Switch,
-  // Rate,
+  Rate,
   // Validator,
   // Upload,
   // Form,
@@ -57,3 +57,4 @@ Vue.use(Toast)
 Vue.use(Dialog)
 Vue.use(Scroll)
 Vue.use(Textarea)
+Vue.use(Rate)

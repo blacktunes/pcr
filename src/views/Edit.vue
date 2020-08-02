@@ -16,8 +16,9 @@
         <div class="pick-card">
           <card>
             <div class="pick" @click.stop>
-              <div v-for="i in 5" :key="i">
+              <div v-for="i in 5" :key="i" class="pick-img">
                 <img draggable="false" :src="selectList[i - 1] ? selectList[i - 1].img : require('../assets/img/unknown.jpg')" style="width: 100%" @click="remove(selectList[i - 1])">
+                <cube-rate class="rate" :value="selectList[i - 1] ? selectList[i - 1].rate : null" :disabled="selectList[i - 1] ? false : true" @input="changeStar(i - 1, $event)"></cube-rate>
               </div>
             </div>
           </card>
@@ -32,7 +33,7 @@
           <div slot="text">
             <div class="img-wrapper">
               <div v-for="name in item.list" :key="name.name" class="img">
-                <img draggable="false" :src="name.img" style="width: 100%" @click="imgClick(name)" :style="{'filter': isSelect (name.name) ? 'grayscale(100%)' : 'none'}">
+                <img draggable="false" :src="name.img" style="width: 100%" @click="imgClick({...name, rate: null})" :style="{'filter': isSelect (name.name) ? 'grayscale(100%)' : 'none'}">
               </div>
             </div>
           </div>
@@ -101,6 +102,9 @@ export default {
     }
   },
   methods: {
+    changeStar (index, num) {
+      this.selectList[index].rate = num
+    },
     back () {
       this.$router.push(`/list?&king=${this.$route.query.king}&round=${this.$route.query.round}`)
     },
@@ -245,9 +249,11 @@ export default {
     this.list = data
     if (this.$route.params.id) {
       const data = this.$route.params
+      data.data.forEach(item => {
+        this.imgClick({ ...item, rate: null })
+      })
       this.author = data.author
       this.num = data.num
-      this.selectList = data.data
       this.text = data.text
       this.id = data.id
       this.rage = Boolean(data.rage)
@@ -255,6 +261,11 @@ export default {
       if (user !== 'null') {
         this.author = user
       }
+    }
+  },
+  watch: {
+    selectList () {
+      console.log(this.selectList)
     }
   }
 }
@@ -303,8 +314,19 @@ export default {
       margin 10px 0
       .pick
         display flex
-        div
+        .pick-img
           flex 0 0 20%
+          width 20%
+          height 100%
+          .rate
+            width 96%
+            padding 2px 2%
+            & >>> .cube-rate-item
+              margin 0
+            & >>> .cube-rate-item_active
+              .cube-rate-item-def
+                background url('~@/assets/img/star.png')
+                background-size 100% 100%
   .title
     display flex
     align-items center

@@ -14,6 +14,7 @@
               <div class="img" ref="imgWrapper">
                 <div class="item" v-for="item in card.data" :key="item.name">
                   <img :src="item.img" draggable="false">
+                  <cube-rate class="rate" v-if="item.rate" :value="item.rate" :disabled="true"></cube-rate>
                 </div>
               </div>
               <div class="num">{{card.author ? card.author : '匿名大佬'}}：{{card.num ? card.num : '?'}}</div>
@@ -193,9 +194,23 @@ export default {
         width 20%
         height 100%
         background #ddd
+        position relative
         img
           display block
           width 100%
+        .rate
+          width 90%
+          position absolute
+          bottom 3px
+          padding 0 5%
+          & >>> .cube-rate-item
+            margin 0
+            .cube-rate-item-def
+              background-image none
+          & >>> .cube-rate-item_active
+            .cube-rate-item-def
+              background url('~@/assets/img/star.png')
+              background-size 100% 100%
     .num
       text-align center
       margin 5px
