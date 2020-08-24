@@ -113,7 +113,31 @@ export default {
         this.removeItem(name.name)
       } else if (this.selectList.length < 5) {
         this.selectList.push(name)
+      } else {
+        return
       }
+      this.selectList.sort((a, b) => {
+        if (a.position && b.position) {
+          return a.position - b.position
+          // if (a.type === '前卫' && b.type === '中卫') {
+          //   return -1
+          // } else if (a.type === '前卫' && b.type === '后卫') {
+          //   return -1
+          // } else if (a.type === '中卫' && b.type === '前卫') {
+          //   return 1
+          // } else if (a.type === '中卫' && b.type === '后卫') {
+          //   return -1
+          // } else if (a.type === '后卫' && b.type === '中卫') {
+          //   return 1
+          // } else if (a.type === '后卫' && b.type === '前卫') {
+          //   return 1
+          // } else {
+          //   return 0
+          // }
+        } else {
+          return 0
+        }
+      })
     },
     remove (name) {
       if (name) {
@@ -246,11 +270,37 @@ export default {
       this.$router.go(-1)
       return
     }
-    this.list = data
+    const temp = [
+      {
+        type: '前卫',
+        icon: 'position_front',
+        list: []
+      },
+      {
+        type: '中卫',
+        icon: 'position_middle',
+        list: []
+      },
+      {
+        type: '后卫',
+        icon: 'position_back',
+        list: []
+      }
+    ]
+    data.forEach(item => {
+      if (item.type === '前卫') {
+        temp[0].list.push(item)
+      } else if (item.type === '中卫') {
+        temp[1].list.push(item)
+      } else if (item.type === '后卫') {
+        temp[2].list.push(item)
+      }
+    })
+    this.list = temp
     if (this.$route.params.id) {
       const data = this.$route.params
       data.data.forEach(item => {
-        this.imgClick({ ...item, rate: null })
+        this.imgClick({ ...item, rate: item.rate })
       })
       this.author = data.author
       this.num = data.num
@@ -265,7 +315,6 @@ export default {
   },
   watch: {
     selectList () {
-      console.log(this.selectList)
     }
   }
 }
